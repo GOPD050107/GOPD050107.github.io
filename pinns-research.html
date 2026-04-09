@@ -20,71 +20,58 @@
     <main class="article-container">
         <article>
             <header class="article-header">
-                <h1>Discovery of High-Energy-Density Battery Materials via Physics-Informed Neural Networks</h1>
-                <p class="subtitle">Accelerating R&D timelines using machine learning constrained by first principles.</p>
+                <h1>Physics-Informed Discovery of Battery Materials</h1>
+                <p class="subtitle">Accelerating R&D timelines via Physics-Informed Neural Networks (PINNs).</p>
             </header>
 
             <div class="content-grid">
                 <div class="main-content">
-                    
                     <h2>The Challenge</h2>
-                    <p>Standard artificial intelligence models often fail to find usable battery materials because "black-box" predictions can produce chemically unstable or physically impossible results. The objective of this research was to design an AI that understands the fundamental laws of physics to intelligently design viable, high-performance materials for electric vehicles and grid storage.</p>
+                    <p>Standard AI models often fail to identify usable battery materials because they produce chemically unstable results that ignore fundamental laws of physics. Traditional trial-and-error discovery timelines are resource-intensive and often require more than a decade to bring a new material to market.</p>
 
-                    <h2>Our Scientific Method</h2>
-                    <p>To overcome the computational bottlenecks of traditional Density Functional Theory (DFT), we developed a three-step high-throughput computational screening framework:</p>
+                    <h2>The Methodology</h2>
+                    <p>We architected a machine learning framework that embeds domain-specific physical principles directly into the learning process. Unlike "black-box" models, this PINN is constrained by fundamental laws to enhance accuracy and synthesizability.</p>
                     
-                    <ol>
-                        <li><strong>Physics-Based Feature Engineering:</strong> Extracted a curated dataset of 29,377 compounds from the Materials Project. We engineered 22 specific descriptors encompassing structural, thermodynamic, and electronic properties (e.g., band gap, formation energy).</li>
-                        <li><strong>Physics-Informed Core:</strong> Constrained the generative process to validated chemical spaces (like high-nickel NMC and high-voltage spinels) ensuring the algorithm respected core thermodynamic stability.</li>
-                        <li><strong>Neural Network Prediction:</strong> Designed a feed-forward neural network in PyTorch, optimized with Smooth L1 loss and dropout regularization, to predict Volumetric Energy Density (VED).</li>
+                    <ol style="margin-bottom: 2rem;">
+                        <li><strong>Physics-Based Features:</strong> Curated 29,377 compounds from the Materials Project and engineered 22 distinct descriptors.</li>
+                        <li><strong>Physics-Informed Core:</strong> Constrained calculations using Volumetric Energy Density (VED) principles.</li>
+                        <li><strong>Neural Network Prediction:</strong> Trained a Feed-Forward Neural Network to predict VED with high fidelity.</li>
                     </ol>
 
-                    <div class="image-wrapper" style="margin: 2rem 0; background: #f4f7f9; padding: 1rem; border-radius: 8px; text-align: center;">
-                        <p style="color: #888; font-style: italic;">[Insert your "Predicted vs Actual VED Parity Plot" image here]</p>
-                        </div>
-
-                    <h2>Key Discoveries & Impact</h2>
-                    <p>The model demonstrated exceptional predictive fidelity on a held-out test set, achieving an <strong>R&sup2; of 0.9989</strong> and a Mean Absolute Error of 0.3 Wh/L. This high-accuracy model enabled the virtual screening of <strong>500,000 hypothetical compositions in under 15 minutes</strong> on a single GPU.</p>
+                    <h2>The Discovery</h2>
+                    <p>The model demonstrated exceptional predictive fidelity, achieving a coefficient of determination (R²) of 0.9989. This framework enabled the high-throughput screening of 500,000 hypothetical compositions in under 15 minutes.</p>
                     
-                    <p>Because of the physics-constrained generation strategy, 100% of the generated candidates fell within the target viable VED range.</p>
-
-                    <div class="highlight-box" style="background-color: rgba(90, 125, 154, 0.1); border-left: 4px solid var(--accent-color); padding: 1.5rem; margin: 2rem 0; border-radius: 0 8px 8px 0;">
-                        <h3 style="margin-top: 0; color: var(--text-main);">🏆 Top Discovered Candidate</h3>
-                        <p style="margin-bottom: 0;">The screening successfully identified a novel Cobalt-doped high-voltage spinel—<strong>Co<sub>0.04</sub>Li<sub>1.05</sub>Ni<sub>0.54</sub>Mn<sub>1.51</sub>O<sub>4.05</sub></strong>—yielding an exceptional predicted Volumetric Energy Density of <strong>238.2 Wh/L</strong>. This aligns with cutting-edge experimental research trends validating targeted cation doping for enhanced structural stability.</p>
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="assets/pinn-parity-plot.png" alt="Predicted vs Actual VED Parity Plot" style="max-width: 100%; border-radius: 8px;">
+                        <p style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">Fig 4: Parity plot showing near-perfect correlation between model predictions and DFT actual values.</p>
                     </div>
 
-                    <div class="image-wrapper" style="margin: 2rem 0; background: #f4f7f9; padding: 1rem; border-radius: 8px; text-align: center;">
-                        <p style="color: #888; font-style: italic;">[Insert your "VED Performance by Chemistry System" Bar Chart here]</p>
-                        </div>
+                    <h3>High-Performance Candidate Identified</h3>
+                    <p>The screening independently discovered a promising avenue for chemical modification: a Co-doped spinel.</p>
 
+                    <blockquote style="background-color: var(--light-gray); padding: 1.5rem; border-left: 4px solid var(--accent-color); margin: 2rem 0;">
+                        <strong>Novel Discovery:</strong><br>
+                        Co-doped spinel: <strong>Co₀.₀₄Li₁.₀₅Ni₀.₅₄Mn₁.₅₁O₄.₀₅</strong><br>
+                        Predicted VED: <strong>238.2 Wh/L</strong>
+                    </blockquote>
                 </div>
 
                 <aside class="sidebar">
                     <div class="sidebar-box">
                         <h3>Project Details</h3>
-                        <p><strong>Role:</strong> NSF Research Assistant</p>
-                        <p><strong>Collaborator:</strong> Dr. Kun Wang</p>
-                        <p><strong>Tech Stack:</strong></p>
-                        <ul class="clean-list">
-                            <li>Python (PyTorch)</li>
-                            <li>Pandas & NumPy</li>
-                            <li>CUDA (Hardware Acceleration)</li>
-                        </ul>
-                        <p><strong>Data & APIs:</strong></p>
-                        <ul class="clean-list">
-                            <li>Materials Project API</li>
-                            <li>29,377 Training Compounds</li>
-                            <li>500,000 Screened Candidates</li>
-                        </ul>
+                        <p><strong>Tools:</strong> Python (PyTorch)</p>
+                        <p><strong>Database:</strong> Materials Project API</p>
+                        <p><strong>Speed:</strong> 500k compounds / 15 mins</p>
                     </div>
                 </aside>
             </div>
         </article>
+
         <section class="download-container">
-    <h3>Full Research Manuscript</h3>
-    <p>Review the complete computational framework used for the high-throughput screening of 500,000 hypothetical battery compositions.</p>
-    <a href="assets/manuscript.pdf" class="btn-download" download>Download Manuscript (PDF)</a>
-</section>
+            <h3>Full Research Manuscript</h3>
+            <p>Review the complete computational framework and stability analysis.</p>
+            <a href="assets/manuscript.pdf" class="btn-download" download>Download Manuscript (PDF)</a>
+        </section>
     </main>
 
     <footer>
