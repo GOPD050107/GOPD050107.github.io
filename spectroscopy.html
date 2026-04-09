@@ -20,44 +20,43 @@
     <main class="article-container">
         <article>
             <header class="article-header">
-                <h1>Computational Spectroscopy & Machine Learning</h1>
-                <p class="subtitle">Deconvolving complex FTIR spectra using Principal Component Analysis.</p>
+                <h1>Computational Analysis of FTIR Spectra</h1>
+                <p class="subtitle">Identifying mathematical patterns in complex chemical data via PCA.</p>
             </header>
 
             <div class="content-grid">
                 <div class="main-content">
                     <h2>The Challenge</h2>
-                    <p>Interpreting FTIR (Fourier-Transform Infrared) spectroscopy data is often hindered by overlapping peaks, making visual quantification highly subjective. The goal of this project was to establish a mathematical foundation to identify underlying chemical patterns and automatically sort complex biological samples (Okra mucilage).</p>
+                    <p>Interpreting FTIR data is difficult due to overlapping peaks that obscure individual component quantification. I utilized a computational approach to identify underlying mathematical patterns and sort samples automatically.</p>
 
-                    <h2>Methodology</h2>
-                    <p>I developed a robust Python pipeline using SciPy and Scikit-Learn. The data underwent stringent preprocessing, including Asymmetric Least Squares (ALS) baseline correction and Savitzky-Golay filtering for derivative analysis.</p>
+                    <h2>1. Principal Component Analysis (PCA)</h2>
+                    <p>The PCA algorithm successfully sorted samples into distinct, non-random clusters. The primary variance (PC1) accounts for 88.60% of the data and perfectly separates "Seed" samples from "Pericarp" samples, validating the preprocessing pipeline.</p>
 
-                    <p>I deployed a Principal Component Analysis (PCA) algorithm to compress the high-dimensional spectral data and extract the most significant sources of chemical variance.</p>
-
-                    <h2>Interactive PCA Clustering Results</h2>
-                    <p>The PCA model successfully sorted 6 samples into distinct, non-random clusters without human intervention. The primary axis (PC1, capturing 88.6% of variance) perfectly separated Seed samples from Pericarp samples.</p>
-
-                    <div style="margin: 2rem 0; width: 100%; height: 500px; border: 1px solid #eaeaea; border-radius: 8px; overflow: hidden;">
-                        <iframe src="assets/pca_cluster_plot.html" width="100%" height="100%" frameborder="0" title="Interactive PCA Cluster Plot"></iframe>
+                    <div class="image-wrapper" style="text-align: center;">
+                        <img src="assets/spectro-pca-cluster.png" alt="PCA Cluster Plot" style="max-width: 100%; border-radius: 8px;">
+                        <p class="image-caption" style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Fig 1: PCA clustering showing perfect separation of botanical tissue types.</p>
                     </div>
 
-                    <h2>Next Steps: Predictive Modeling</h2>
-                    <p>Having proven the mathematical separability of the samples, the next phase involves training predictive algorithms. I have architected both a Partial Least Squares (PLS) regression to predict Polysaccharide Yield, and a Neural Network (built in Keras) tailored to predict Antibacterial Inhibition (MIC) to validate theoretical hypotheses.</p>
+                    <h2>2. Predictive Modeling</h2>
+                    <p>Beyond sorting, the next phase involves teaching the model to predict physical values, such as Polysaccharide Yield and Antibacterial Inhibition (MIC), bridging the gap between raw spectral data and lab results.</p>
                 </div>
 
                 <aside class="sidebar">
                     <div class="sidebar-box">
-                        <h3>Tech Stack</h3>
+                        <h3>Data Stack</h3>
                         <ul class="clean-list">
-                            <li>Python (Pandas, NumPy)</li>
-                            <li>SciPy (Signal Processing)</li>
-                            <li>Scikit-Learn (PCA, PLS)</li>
-                            <li>TensorFlow / Keras</li>
+                            <li>Python (SciPy, Scikit-learn)</li>
+                            <li>Baseline Correction (ALS)</li>
+                            <li>Signal Processing</li>
                         </ul>
                     </div>
                 </aside>
             </div>
         </article>
     </main>
+
+    <footer>
+        <p>&copy; 2026 David G. Puga. All rights reserved.</p>
+    </footer>
 </body>
 </html>
