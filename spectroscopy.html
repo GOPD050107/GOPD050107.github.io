@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computational Spectroscopy | David G. Puga</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="project-page">
+    <header>
+        <nav>
+            <div class="logo"><a href="index.html" style="color: inherit; text-decoration: none;">David G. Puga</a></div>
+            <ul class="nav-links">
+                <li><a href="index.html#portfolio">&larr; Back to Portfolio</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="article-container">
+        <article>
+            <header class="article-header">
+                <h1>Computational Spectroscopy & Machine Learning</h1>
+                <p class="subtitle">Deconvolving complex FTIR spectra using Principal Component Analysis.</p>
+            </header>
+
+            <div class="content-grid">
+                <div class="main-content">
+                    <h2>The Challenge</h2>
+                    <p>Interpreting FTIR (Fourier-Transform Infrared) spectroscopy data is often hindered by overlapping peaks, making visual quantification highly subjective. The goal of this project was to establish a mathematical foundation to identify underlying chemical patterns and automatically sort complex biological samples (Okra mucilage).</p>
+
+                    <h2>Methodology</h2>
+                    <p>I developed a robust Python pipeline using SciPy and Scikit-Learn[cite: 2940, 2947]. The data underwent stringent preprocessing, including Asymmetric Least Squares (ALS) baseline correction and Savitzky-Golay filtering for derivative analysis[cite: 3128, 3555].</p>
+
+                    <p>I deployed a Principal Component Analysis (PCA) algorithm to compress the high-dimensional spectral data and extract the most significant sources of chemical variance[cite: 3947].</p>
+
+                    <h2>Interactive PCA Clustering Results</h2>
+                    <p>The PCA model successfully sorted 6 samples into distinct, non-random clusters without human intervention. The primary axis (PC1, capturing 88.6% of variance) perfectly separated Seed samples from Pericarp samples[cite: 4045, 5081].</p>
+
+                    <div style="margin: 2rem 0; width: 100%; height: 500px; border: 1px solid #eaeaea; border-radius: 8px; overflow: hidden;">
+                        <iframe src="assets/pca_cluster_plot.html" width="100%" height="100%" frameborder="0" title="Interactive PCA Cluster Plot"></iframe>
+                    </div>
+
+                    <h2>Next Steps: Predictive Modeling</h2>
+                    <p>Having proven the mathematical separability of the samples, the next phase involves training predictive algorithms. I have architected both a Partial Least Squares (PLS) regression to predict Polysaccharide Yield [cite: 4054], and a Neural Network (built in Keras) tailored to predict Antibacterial Inhibition (MIC) to validate theoretical hypotheses[cite: 4471].</p>
+                </div>
+
+                <aside class="sidebar">
+                    <div class="sidebar-box">
+                        <h3>Tech Stack</h3>
+                        <ul class="clean-list">
+                            <li>Python (Pandas, NumPy) [cite: 2936, 2937]</li>
+                            <li>SciPy (Signal Processing) [cite: 2940]</li>
+                            <li>Scikit-Learn (PCA, PLS) [cite: 2948, 2949]</li>
+                            <li>TensorFlow / Keras [cite: 2953, 2954]</li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </article>
+    </main>
+</body>
+</html>

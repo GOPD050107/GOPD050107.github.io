@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battery Testing with Arbin Equipment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Set base font size for responsive scaling with rem units */
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 4vw; /* Responsive padding */
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 7rem; /* Drastically increased font size */
+            text-align: center;
+            margin-bottom: 2.5rem;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: 6rem; /* Drastically increased font size */
+            margin-bottom: 2rem;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        h3 {
+            font-size: 4rem; /* Drastically increased font size */
+            margin-bottom: 1.5rem;
+            color: #87ceeb;
+        }
+
+        .content {
+            max-width: 1800px; /* Expanded width */
+            width: 100%;
+            text-align: center;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem; /* Increased gap */
+            align-items: center;
+            width: 100%;
+        }
+        
+        .slide11-layout {
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2.5rem;
+        }
+
+        .battery-animation {
+            width: 350px;
+            height: 180px;
+            border: 5px solid #fff;
+            border-radius: 15px;
+            position: relative;
+            margin: 2rem auto;
+            background: linear-gradient(90deg, #4CAF50 0%, #8BC34A 100%);
+            overflow: hidden;
+        }
+
+        .battery-level {
+            height: 100%;
+            background: linear-gradient(90deg, #FF9800, #FFC107);
+            width: 0%;
+            transition: width 3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .battery-terminal {
+            width: 25px;
+            height: 70px;
+            background: #fff;
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .ion-flow {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 300px; /* Increased height */
+            margin: 2rem 0;
+        }
+
+        .electrode {
+            width: 220px; 
+            height: 280px; 
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            font-size: 2rem; /* Drastically increased font size */
+        }
+
+        .anode {
+            background: linear-gradient(45deg, #333, #666);
+        }
+
+        .cathode {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+
+        .ion {
+            width: 30px; /* Made bigger */
+            height: 30px; /* Made bigger */
+            background: #ffd700;
+            border-radius: 50%;
+            position: relative;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes move-right {
+            from { transform: translateX(-200px); } /* Adjusted distance */
+            to { transform: translateX(200px); } /* Adjusted distance */
+        }
+
+        @keyframes move-left {
+            from { transform: translateX(200px); } /* Adjusted distance */
+            to { transform: translateX(-200px); } /* Adjusted distance */
+        }
+
+        .ion.charge {
+            animation: move-left 1.5s ease-in-out forwards, float 2s ease-in-out infinite;
+        }
+
+        .ion.discharge {
+            animation: move-right 1.5s ease-in-out forwards, float 2s ease-in-out infinite;
+        }
+
+        .equipment-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Increased min-width */
+            gap: 3rem;
+            margin: 3rem 0;
+        }
+
+        .equipment-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .equipment-card p {
+            font-size: 1.8rem; /* Drastically increased font size */
+            line-height: 1.6;
+        }
+
+        .equipment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .degradation-chart {
+            width: 100%;
+            height: 400px; /* Increased height */
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 1.5rem;
+        }
+
+        .bar {
+            width: 60px; /* Made bigger */
+            background: linear-gradient(to top, #ff6b6b, #4ecdc4);
+            border-radius: 8px 8px 0 0;
+            margin: 0 0.5rem;
+            position: relative;
+            transition: height 2s ease-in-out;
+        }
+
+        .bar::after {
+            content: attr(data-value);
+            position: absolute;
+            top: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1.5rem; /* Drastically increased font size */
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 1rem 2rem; /* Made bigger */
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 1.5rem; /* Drastically increased font size */
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            font-size: 1.5rem;
+        }
+
+        .interactive-demo {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem; /* Increased padding */
+            margin: 3rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .demo-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .demo-btn {
+            padding: 1.2rem 2.4rem; /* Made bigger */
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-size: 1.5rem; /* Drastically increased font size */
+        }
+
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .question-prompt {
+            background: rgba(255, 215, 0, 0.2);
+            border: 3px solid #ffd700;
+            border-radius: 15px;
+            padding: 2.5rem; /* Increased padding */
+            margin: 3rem auto 0 auto; /* Increased margin */
+            animation: pulse 2s infinite;
+            font-size: 2.2rem; /* Drastically increased font size */
+            line-height: 1.7;
+            max-width: 90%;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.01); }
+            100% { transform: scale(1); }
+        }
+
+        .bullet-points {
+            text-align: left;
+            font-size: 2.5rem; /* Drastically increased font size */
+            line-height: 1.8;
+            margin: 1.5rem auto;
+            max-width: 95%;
+        }
+
+        .bullet-points li {
+            margin: 1.5rem 0; /* Increased margin */
+            padding-left: 1rem;
+        }
+        
+        .bullet-points p {
+            margin-bottom: 1.5rem; /* Increased margin */
+        }
+
+        .highlight {
+            background: rgba(255, 215, 0, 0.3);
+            padding: 0.2rem 0.6rem; /* Increased padding */
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .software-interface {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 2.5rem; /* Increased padding */
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            text-align: left;
+        }
+
+        .code-line {
+            color: #00ff00;
+            margin: 0.5rem 0;
+            font-size: 2rem; /* Drastically increased font size */
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">13</span>
+        </div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <div class="content">
+                <h1>🔋 Battery Testing with Arbin Equipment</h1>
+                <h3>Understanding Lithium-Ion Technology</h3>
+                <div class="battery-animation">
+                    <div class="battery-level" id="title-battery">⚡</div>
+                    <div class="battery-terminal"></div>
+                </div>
+                <div class="question-prompt">
+                    <strong>Question to ponder:</strong> How many times do you charge your phone per day? What if we could make that battery last 10 times longer?
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Why Battery Testing Matters -->
+        <div class="slide">
+            <div class="content">
+                <h2>🚀 Why Battery Testing Matters</h2>
+                <div class="two-column">
+                    <div>
+                        <div class="bullet-points">
+                            <ul>
+                                <li>Electric vehicles need <span class="highlight">reliable batteries</span></li>
+                                <li>Smartphones require <span class="highlight">long-lasting power</span></li>
+                                <li>Grid storage depends on <span class="highlight">safe operation</span></li>
+                                <li>Space missions need <span class="highlight">perfect performance</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="degradation-chart">
+                            <div class="bar" data-value="100%" style="height: 100px;"></div>
+                            <div class="bar" data-value="95%" style="height: 95px;"></div>
+                            <div class="bar" data-value="87%" style="height: 87px;"></div>
+                            <div class="bar" data-value="72%" style="height: 72px;"></div>
+                            <div class="bar" data-value="58%" style="height: 58px;"></div>
+                        </div>
+                        <p style="font-size: 2rem;">Battery capacity over time</p>
+                    </div>
+                </div>
+                <div class="question-prompt">
+                    <strong>Think about it:</strong> What happens when a battery fails in a medical device or electric car?
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Lithium-Ion Chemistry -->
+        <div class="slide">
+            <div class="content">
+                <h2>⚛️ Lithium-Ion Battery Chemistry</h2>
+                <div class="ion-flow">
+                    <div class="electrode anode">
+                        <div>
+                            <div>ANODE</div>
+                            <div>(Graphite)</div>
+                            <div id="anode-reaction" style="font-size: 1.8rem; margin-top: 1.5rem;">Li → Li⁺ + e⁻</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; width: 300px;">
+                        <div id="ion-container" style="position: absolute; width: 100%;">
+                            <div class="ion"></div>
+                            <div class="ion" style="animation-delay: 0.5s;"></div>
+                            <div class="ion" style="animation-delay: 1s;"></div>
+                        </div>
+                        <div id="flow-direction" style="font-size: 4rem; margin: 1rem 0; color: #ffd700;"></div>
+                        <div style="font-size: 1.8rem;">Li⁺ ions</div>
+                    </div>
+                    <div class="electrode cathode">
+                        <div>
+                            <div>CATHODE</div>
+                            <div>(LiCoO₂)</div>
+                            <div id="cathode-reaction" style="font-size: 1.8rem; margin-top: 1.5rem;">Li⁺ + e⁻ → Li</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="interactive-demo">
+                    <h3>Interactive Demo</h3>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="animateDischarge()">Discharge 🔋</button>
+                        <button class="demo-btn" onclick="animateCharge()">Charge ⚡</button>
+                    </div>
+                    <div id="demo-status" style="font-size: 2rem; min-height: 1.5em; padding-top:1rem;">Click a button to see the ion movement!</div>
+                </div>
+                <div class="question-prompt">
+                    <strong>Challenge:</strong> What happens to the ions when we charge vs discharge? Why does this matter for testing?
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Physics of Battery Degradation -->
+        <div class="slide">
+            <div class="content">
+                <h2>🔬 Physics of Battery Degradation</h2>
+                <div class="two-column">
+                    <div>
+                        <div class="bullet-points">
+                            <ul>
+                                <li><span class="highlight">Solid Electrolyte Interface (SEI)</span> formation</li>
+                                <li><span class="highlight">Lithium plating</span> at high currents</li>
+                                <li><span class="highlight">Active material loss</span> over cycles</li>
+                                <li><span class="highlight">Impedance growth</span> with age</li>
+                                <li><span class="highlight">Thermal effects</span> accelerate degradation</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="degradation-chart" id="degradation-demo">
+                            <div class="bar" data-value="New" style="height: 120px; background: linear-gradient(to top, #4CAF50, #8BC34A);"></div>
+                            <div class="bar" data-value="100 cycles" style="height: 110px; background: linear-gradient(to top, #FFC107, #FF9800);"></div>
+                            <div class="bar" data-value="500 cycles" style="height: 95px; background: linear-gradient(to top, #FF9800, #FF5722);"></div>
+                            <div class="bar" data-value="1000 cycles" style="height: 80px; background: linear-gradient(to top, #FF5722, #F44336);"></div>
+                            <div class="bar" data-value="2000 cycles" style="height: 65px; background: linear-gradient(to top, #F44336, #E91E63);"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="question-prompt">
+                    <strong>Real-world connection:</strong> Ever notice your phone battery doesn't last as long after a year? That's degradation in action!
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Meet the Arbin Equipment -->
+        <div class="slide">
+            <div class="content">
+                <h2>🏭 Meet the Arbin Equipment</h2>
+                <div class="equipment-showcase">
+                    <div class="equipment-card">
+                        <h3>🔧 Battery Tester</h3>
+                        <p>Precise current and voltage control</p>
+                        <p>Multiple independent channels</p>
+                        <p>High accuracy measurements</p>
+                        <div class="highlight" style="font-size: 1.8rem; margin-top: 1rem; display: inline-block;">±0.05% accuracy</div>
+                    </div>
+                    <div class="equipment-card">
+                        <h3>🌡️ Environmental Chamber</h3>
+                        <p>Temperature control: -40°C to +85°C</p>
+                        <p>Humidity control: 5% to 95%</p>
+                        <p>Precise environmental simulation</p>
+                        <div class="highlight" style="font-size: 1.8rem; margin-top: 1rem; display: inline-block;">±0.1°C stability</div>
+                    </div>
+                    <div class="equipment-card">
+                        <h3>🔗 Integration</h3>
+                        <p>Synchronized testing protocols</p>
+                        <p>Real-time data acquisition</p>
+                        <p>Safety monitoring systems</p>
+                        <div class="highlight" style="font-size: 1.8rem; margin-top: 1rem; display: inline-block;">24/7 operation</div>
+                    </div>
+                </div>
+                <div class="question-prompt">
+                    <strong>Hands-on question:</strong> What extreme conditions might we want to test batteries under? Think about where batteries are used!
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Battery Testing Protocols -->
+        <div class="slide">
+            <div class="content">
+                <h2>📋 Battery Testing Protocols</h2>
+                <div class="two-column">
+                    <div>
+                        <div class="bullet-points">
+                            <ul>
+                                <li><span class="highlight">Capacity Test:</span> How much energy can it store?</li>
+                                <li><span class="highlight">Cycle Life:</span> How many charge/discharge cycles?</li>
+                                <li><span class="highlight">Rate Capability:</span> How fast can it charge/discharge?</li>
+                                <li><span class="highlight">Impedance:</span> How much resistance does it have?</li>
+                                <li><span class="highlight">Safety Tests:</span> What happens under abuse?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="interactive-demo">
+                            <h3>Test Sequence</h3>
+                            <div id="test-sequence">
+                                <div class="code-line">1. Pre-conditioning: 3 cycles at C/10</div>
+                                <div class="code-line">2. Capacity test: C/20 discharge</div>
+                                <div class="code-line">3. Rate test: C/5, C/2, 1C, 2C</div>
+                                <div class="code-line">4. Cycle life: 1000+ cycles</div>
+                                <div class="code-line">5. Safety validation</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="question-prompt">
+                    <strong>Critical thinking:</strong> Why do we test at different rates? What's the difference between C/10 and 2C?
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Arbin Hardware Deep Dive -->
+        <div class="slide">
+            <div class="content">
+                <h2>⚙️ Arbin Hardware Deep Dive</h2>
+                <div class="equipment-showcase">
+                    <div class="equipment-card">
+                        <h3>🔌 Channel Architecture</h3>
+                        <p>Independent voltage/current sources</p>
+                        <p>Isolated measurement circuits</p>
+                        <p>Built-in safety limits</p>
+                    </div>
+                    <div class="equipment-card">
+                        <h3>📊 Data Acquisition</h3>
+                        <p>16-bit resolution ADCs</p>
+                        <p>1000 Hz sampling rate</p>
+                        <p>Real-time data logging</p>
+                    </div>
+                    <div class="equipment-card">
+                        <h3>🛡️ Safety Features</h3>
+                        <p>Over-voltage protection</p>
+                        <p>Over-current protection</p>
+                        <p>Temperature monitoring</p>
+                    </div>
+                </div>
+                <div class="interactive-demo">
+                    <h3>Live Demo Setup</h3>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="showConnection()">Show Connections</button>
+                        <button class="demo-btn" onclick="showSafety()">Safety Systems</button>
+                    </div>
+                    <div id="hardware-demo" style="font-size: 2rem;">Ready for live demonstration!</div>
+                </div>
+                <div class="question-prompt">
+                    <strong>Safety first:</strong> What could go wrong if we don't have proper safety systems? Think about energy storage!
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Environmental Testing -->
+        <div class="slide">
+            <div class="content">
+                <h2>🌡️ Environmental Testing</h2>
+                <div class="two-column">
+                    <div>
+                        <div class="bullet-points">
+                            <ul>
+                                <li><span class="highlight">Temperature cycling:</span> -20°C to +60°C</li>
+                                <li><span class="highlight">Humidity testing:</span> 85% RH conditions</li>
+                                <li><span class="highlight">Thermal shock:</span> Rapid temperature changes</li>
+                                <li><span class="highlight">Long-term storage:</span> Calendar aging</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="degradation-chart">
+                            <div class="bar" data-value="25°C" style="height: 100px; background: linear-gradient(to top, #4CAF50, #8BC34A);"></div>
+                            <div class="bar" data-value="40°C" style="height: 85px; background: linear-gradient(to top, #FFC107, #FF9800);"></div>
+                            <div class="bar" data-value="55°C" style="height: 65px; background: linear-gradient(to top, #FF9800, #FF5722);"></div>
+                            <div class="bar" data-value="70°C" style="height: 45px; background: linear-gradient(to top, #FF5722, #F44336);"></div>
+                        </div>
+                        <p style="font-size: 2rem;">Battery life vs Temperature</p>
+                    </div>
+                </div>
+                <div class="question-prompt">
+                    <strong>Real-world scenario:</strong> Your phone gets hot while gaming. How does this affect the battery? What about leaving it in a hot car?
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Arbin Software Interface -->
+        <div class="slide">
+            <div class="content">
+                <h2>💻 Arbin Software Interface</h2>
+                <div class="software-interface">
+                    <div class="code-line">MITS Pro Software Features:</div>
+                    <div class="code-line">├── Test Schedule Builder</div>
+                    <div class="code-line">├── Real-time Data Monitoring</div>
+                    <div class="code-line">├── Statistical Analysis Tools</div>
+                    <div class="code-line">├── Custom Report Generation</div>
+                    <div class="code-line">└── Database Management</div>
+                </div>
+                <div class="interactive-demo">
+                    <h3>Software Demonstration</h3>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="showSchedule()">Schedule Builder</button>
+                        <button class="demo-btn" onclick="showMonitoring()">Live Monitoring</button>
+                        <button class="demo-btn" onclick="showAnalysis()">Data Analysis</button>
+                    </div>
+                    <div id="software-demo" style="font-size: 2rem;">Click buttons to explore software features!</div>
+                </div>
+                <div class="question-prompt">
+                    <strong>Interactive challenge:</strong> If you were testing a battery, what parameters would you want to monitor in real-time?
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Data Analysis and Interpretation -->
+        <div class="slide">
+            <div class="content">
+                <h2>📈 Data Analysis & Interpretation</h2>
+                <div class="two-column">
+                    <div>
+                        <div class="bullet-points">
+                            <ul>
+                                <li><span class="highlight">Capacity fade curves:</span> Track energy loss</li>
+                                <li><span class="highlight">Voltage profiles:</span> Understand chemistry</li>
+                                <li><span class="highlight">Impedance spectroscopy:</span> Diagnose aging</li>
+                                <li><span class="highlight">Statistical analysis:</span> Predict lifetime</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="interactive-demo">
+                            <h3>Data Visualization</h3>
+                            <div class="demo-controls">
+                                <button class="demo-btn" onclick="showCapacityFade()">Capacity Fade</button>
+                                <button class="demo-btn" onclick="showVoltageProfile()">Voltage Profile</button>
+                            </div>
+                            <div id="data-visualization">
+                                <canvas id="dataChart" width="500" height="250" style="background: rgba(255,255,255,0.1); border-radius: 10px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="question-prompt">
+                    <strong>Detective work:</strong> How can we predict when a battery will fail just from looking at data trends?
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 11: Analyzing Real Test Data -->
+        <div class="slide">
+            <div class="content">
+                <h2>📊 Analyzing Real Test Data</h2>
+                <div class="two-column slide11-layout">
+                    <div>
+                        <img src="Picture1.jpg" alt="Battery Cycle Life Test Graph" style="width: 100%; max-width: 100%; border-radius: 15px; border: 3px solid white; background-color: white;">
+                    </div>
+                    <div>
+                        <div class="bullet-points" style="font-size: 2.2rem;"> <!-- Slightly smaller font to fit -->
+                            <p style="font-size: 2.5rem;">Let's break down this graph:</p>
+                            <ul>
+                                <li>The <span class="highlight" style="color: white; background-color: rgba(0, 102, 255, 0.5);">blue line</span> is the <strong>Current (A)</strong>.</li>
+                                <li>The <span class="highlight" style="color: white; background-color: rgba(255, 51, 51, 0.5);">red line</span> is the <strong>Voltage (V)</strong>.</li>
+                                <li><strong>Charging:</strong> Current is positive (+1A). Voltage rises to its limit (~4.2V).</li>
+                                <li><strong>Discharging:</strong> Current is negative (-1A). Voltage drops as energy is drained.</li>
+                                <li><strong>Cycles:</strong> This charge/discharge pattern repeats. We see five full cycles.</li>
+                            </ul>
+                        </div>
+                         <div class="question-prompt" style="margin-top: 2rem;">
+                            <strong>Think like an engineer:</strong> What do you think would happen to the red line (Voltage) over 500 cycles?
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Real-World Applications -->
+        <div class="slide">
+            <div class="content">
+                <h2>🌍 Real-World Applications</h2>
+                <div class="equipment-showcase">
+                    <div class="equipment-card">
+                        <h3>🚗 Electric Vehicles</h3>
+                        <p>Range validation</p>
+                        <p>Fast charging optimization</p>
+                        <p>Cold weather performance</p>
+                    </div>
+                    <div class="equipment-card">
+                        <h3>🏠 Energy Storage</h3>
+                        <p>Grid stability systems</p>
+                        <p>Solar integration</p>
+                        <p>Peak shaving applications</p>
+                    </div>
+                    <div class="equipment-card">
+                        <h3>🚀 Aerospace</h3>
+                        <p>Mission-critical reliability</p>
+                        <p>Extreme environment testing</p>
+                        <p>Long-term storage validation</p>
+                    </div>
+                    <div class="equipment-card">
+                        <h3>📱 Consumer Electronics</h3>
+                        <p>Smartphone optimization</p>
+                        <p>Wearable device testing</p>
+                        <p>IoT sensor validation</p>
+                    </div>
+                </div>
+                <div class="question-prompt">
+                    <strong>Career connection:</strong> Which application interests you most? What other fields might need battery testing?
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Future of Battery Testing -->
+        <div class="slide">
+            <div class="content">
+                <h2>🔮 Future of Battery Testing</h2>
+                <div class="two-column">
+                    <div>
+                        <div class="bullet-points">
+                            <ul>
+                                <li><span class="highlight">AI-powered predictions:</span> Machine learning for lifetime estimation</li>
+                                <li><span class="highlight">Solid-state batteries:</span> Next generation chemistry</li>
+                                <li><span class="highlight">Faster testing:</span> Accelerated aging methods</li>
+                                <li><span class="highlight">Sustainable recycling:</span> Circular economy approach</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="interactive-demo">
+                            <h3>Your Future in Battery Tech</h3>
+                            <div class="demo-controls">
+                                <button class="demo-btn" onclick="showCareerPaths()">Career Paths</button>
+                                <button class="demo-btn" onclick="showEducation()">Education Routes</button>
+                            </div>
+                            <div id="future-demo" style="font-size: 2rem;">The future is electric - and it needs YOU!</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="question-prompt">
+                    <strong>Your mission:</strong> How will you contribute to the battery revolution? What questions do you have about getting started?
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-btn" onclick="previousSlide()" id="prevBtn">Previous</button>
+            <button class="nav-btn" onclick="nextSlide()" id="nextBtn">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+            
+            triggerSlideAnimations();
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        function triggerSlideAnimations() {
+            if (currentSlide === 0) {
+                setTimeout(() => {
+                    const battery = document.getElementById('title-battery');
+                    if(battery) battery.style.width = '85%';
+                }, 500);
+            }
+            
+            if (currentSlide === 1) {
+                setTimeout(() => {
+                    const bars = document.querySelectorAll('.degradation-chart .bar');
+                    bars.forEach((bar, index) => {
+                        setTimeout(() => {
+                            bar.style.height = bar.style.height;
+                        }, index * 200);
+                    });
+                }, 500);
+            }
+        }
+
+        // Interactive demo functions
+        function animateCharge() {
+            const ions = document.querySelectorAll('#ion-container .ion');
+            const flowDirection = document.getElementById('flow-direction');
+            const anodeReaction = document.getElementById('anode-reaction');
+            const cathodeReaction = document.getElementById('cathode-reaction');
+            const demoStatus = document.getElementById('demo-status');
+
+            if(flowDirection) flowDirection.innerHTML = '←';
+            if(anodeReaction) anodeReaction.innerHTML = 'Li⁺ + e⁻ → Li';
+            if(cathodeReaction) cathodeReaction.innerHTML = 'Li → Li⁺ + e⁻';
+            if(demoStatus) demoStatus.innerHTML = '<span style="color: #4CAF50;">⚡ CHARGING: Ions move from Cathode to Anode.</span>';
+
+            ions.forEach(ion => {
+                ion.className = 'ion';
+                void ion.offsetWidth;
+                ion.classList.add('charge');
+            });
+        }
+
+        function animateDischarge() {
+            const ions = document.querySelectorAll('#ion-container .ion');
+            const flowDirection = document.getElementById('flow-direction');
+            const anodeReaction = document.getElementById('anode-reaction');
+            const cathodeReaction = document.getElementById('cathode-reaction');
+            const demoStatus = document.getElementById('demo-status');
+
+            if(flowDirection) flowDirection.innerHTML = '→';
+            if(anodeReaction) anodeReaction.innerHTML = 'Li → Li⁺ + e⁻';
+            if(cathodeReaction) cathodeReaction.innerHTML = 'Li⁺ + e⁻ → Li';
+            if(demoStatus) demoStatus.innerHTML = '<span style="color: #FF9800;">🔋 DISCHARGING: Ions move from Anode to Cathode.</span>';
+
+            ions.forEach(ion => {
+                ion.className = 'ion';
+                void ion.offsetWidth;
+                ion.classList.add('discharge');
+            });
+        }
+
+        function showConnection() {
+            const hardwareDemo = document.getElementById('hardware-demo');
+            if(hardwareDemo) hardwareDemo.innerHTML = 
+                '<div class="code-line">🔌 Battery → Channel Input (+/-)</div>' +
+                '<div class="code-line">🌡️ Thermocouple → Temp Monitor</div>' +
+                '<div class="code-line">🔗 Chamber → Environmental Control</div>';
+        }
+
+        function showSafety() {
+            const hardwareDemo = document.getElementById('hardware-demo');
+            if(hardwareDemo) hardwareDemo.innerHTML = 
+                '<div class="code-line">⚠️ Voltage Limits: 2.5V - 4.2V</div>' +
+                '<div class="code-line">⚠️ Current Limits: ±1.5A</div>' +
+                '<div class="code-line">⚠️ Temperature: -40°C to +85°C</div>' +
+                '<div class="code-line">🛡️ Emergency Stop Available</div>';
+        }
+
+        function showSchedule() {
+            const softwareDemo = document.getElementById('software-demo');
+            if(softwareDemo) softwareDemo.innerHTML = 
+                '<div class="code-line">📋 Schedule Builder Active</div>' +
+                '<div class="code-line">├── Rest: 30 minutes</div>' +
+                '<div class="code-line">├── CC Charge: 1A to 4.2V</div>' +
+                '<div class="code-line">├── CV Charge: 4.2V to C/20</div>' +
+                '<div class="code-line">├── Rest: 10 minutes</div>' +
+                '<div class="code-line">└── CC Discharge: 1A to 2.9V</div>';
+        }
+
+        function showMonitoring() {
+            const softwareDemo = document.getElementById('software-demo');
+            if(softwareDemo) softwareDemo.innerHTML = 
+                '<div class="code-line">📊 Live Data Stream</div>' +
+                '<div class="code-line">Voltage: 3.847V | Current: 0.995A</div>' +
+                '<div class="code-line">Temperature: 25.3°C | Capacity: 2.45Ah</div>' +
+                '<div class="code-line">Cycle: 127 | Runtime: 2h 34m</div>';
+        }
+
+        function showAnalysis() {
+            const softwareDemo = document.getElementById('software-demo');
+            if(softwareDemo) softwareDemo.innerHTML = 
+                '<div class="code-line">📈 Analysis Tools</div>' +
+                '<div class="code-line">├── Capacity Fade: 2.3%/100 cycles</div>' +
+                '<div class="code-line">├── Impedance Growth: 15% increase</div>' +
+                '<div class="code-line">├── Efficiency: 98.2% average</div>' +
+                '<div class="code-line">└── Predicted EOL: 1,847 cycles</div>';
+        }
+
+        function showCapacityFade() {
+            const canvas = document.getElementById('dataChart');
+            if(!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.strokeStyle = '#ff6b6b';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(20, 20);
+            ctx.quadraticCurveTo(200, 50, 380, 120);
+            ctx.stroke();
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '24px Arial';
+            ctx.fillText('Capacity Fade Over Cycles', 120, 40);
+        }
+
+        function showVoltageProfile() {
+            const canvas = document.getElementById('dataChart');
+            if(!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.strokeStyle = '#4ecdc4';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(20, 150);
+            ctx.bezierCurveTo(80, 20, 300, 20, 380, 150);
+            ctx.stroke();
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '24px Arial';
+            ctx.fillText('Voltage vs Capacity Profile', 120, 180);
+        }
+
+        function showCareerPaths() {
+            const futureDemo = document.getElementById('future-demo');
+            if(futureDemo) futureDemo.innerHTML = 
+                '<div class="code-line">🎓 Career Paths in Battery Tech:</div>' +
+                '<div class="code-line">├── Battery Engineer</div>' +
+                '<div class="code-line">├── Test Engineer</div>' +
+                '<div class="code-line">├── R&D Scientist</div>' +
+                '<div class="code-line">├── Quality Assurance</div>' +
+                '<div class="code-line">└── Product Manager</div>';
+        }
+
+        function showEducation() {
+            const futureDemo = document.getElementById('future-demo');
+            if(futureDemo) futureDemo.innerHTML = 
+                '<div class="code-line">📚 Education Routes:</div>' +
+                '<div class="code-line">├── Chemical Engineering</div>' +
+                '<div class="code-line">├── Materials Science</div>' +
+                '<div class="code-line">├── Electrical Engineering</div>' +
+                '<div class="code-line">├── Mechanical Engineering</div>' +
+                '<div class="code-line">└── Applied Physics</div>';
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                previousSlide();
+            }
+        });
+
+        // Initialize
+        showSlide(0);
+        
+        // Auto-start title animation
+        setTimeout(() => {
+            const battery = document.getElementById('title-battery');
+            if (battery) battery.style.width = '85%';
+        }, 1000);
+    </script>
+</body>
+</html>
