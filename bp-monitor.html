@@ -43,13 +43,17 @@
                     <p>Standard pneumatic cuffs provide only intermittent data points, creating a significant sampling gap in clinical monitoring. This project designed a continuous non-invasive blood pressure (CNIBP) monitor using an active-material elastic sleeve and embedded piezo-electric sensors to track pulse wave amplitude in real-time[cite: 254, 255, 256].</p>
 
                     <h2>1. Analog Front-End (AFE) Design</h2>
-                    <p>Piezo-electric transducers generate high-impedance charge signals proportional to arterial displacement[cite: 260]. To prevent signal loading, I configured an LMP7721 precision amplifier as a charge-to-voltage converter[cite: 261]. The feedback network of $R_{t}=300\text{ M}\Omega$ and $C_{t}=10\text{ nF}$ provides hardware AC-coupling, effectively eliminating DC offset and sensor hysteresis.</p>
+                    <p>Piezo-electric transducers generate high-impedance charge signals proportional to arterial displacement[cite: 260]. To prevent signal loading, I configured an LMP7721 precision amplifier as a charge-to-voltage converter[cite: 261]. The feedback network of $R_{t}=300\text{ M}\Omega$ and $C_{t}=10\text{ nF}$ provides hardware AC-coupling, effectively eliminating DC offset and sensor hysteresis[cite: 262].</p>
 
-                    <div class="image-wrapper" style="text-align: center;">
-                        <img src="assets/bp-circuit-bode-plot.png" alt="LMP7721 AFE Circuit and Bode Plot" style="max-width: 100%; border-radius: 8px;">
-                        <p class="image-caption">Fig 1: LMP7721 Charge Amplifier circuit and AC Analysis Bode plot showing 0.1 Hz cutoff[cite: 263, 266, 291].</p>
+                    <div class="image-wrapper" style="text-align: center; margin-bottom: 3rem;">
+                        <img src="assets/bp-circuit-diagram.png" alt="LMP7721 Charge Amplifier Circuit Diagram" style="max-width: 100%; border-radius: 8px;">
+                        <p class="image-caption">Fig 1: LMP7721 precision charge amplifier configuration for high-impedance piezoelectric interfacing[cite: 261, 279].</p>
                     </div>
 
+                    <div class="image-wrapper" style="text-align: center;">
+                        <img src="assets/bp-bode-plot.png" alt="AC Analysis Bode Plot" style="max-width: 100%; border-radius: 8px;">
+                        <p class="image-caption">Fig 2: AC Analysis Bode plot demonstrating a highly tuned bandpass filter with a sharp 0.1 Hz cutoff to reject static baseline pressure[cite: 263, 264, 291].</p>
+                    </div>
                     <h2>2. Digital Logic & Patient Safety</h2>
                     <p>The system executes a deterministic 100 Hz sampling routine via Timer1 Interrupts to calculate real-time pulse amplitude[cite: 256, 294]. I utilized digital environment testing to develop a closed-loop control system that manages actuation hysteresis and sensor drift via a dual-threshold deadband[cite: 257, 312].</p>
 
