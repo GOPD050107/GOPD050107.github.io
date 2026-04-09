@@ -6,19 +6,6 @@
     <title>Solid-State BP Monitor | David G. Puga</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Specific spacing fix for this page */
-        .main-content p {
-            margin-bottom: 1.8rem; /* Added space after paragraphs */
-            line-height: 1.7;
-        }
-        .image-caption {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 0.5rem;
-            margin-bottom: 2rem;
-        }
-    </style>
 </head>
 <body class="project-page">
     <header>
@@ -33,38 +20,38 @@
     <main class="article-container">
         <article>
             <header class="article-header">
-                <h1>Solid-State Continuous Blood Pressure Monitor</h1>
-                <p class="subtitle">Utilizing active material actuation and pulse wave analysis to replace pneumatic systems[cite: 251, 255].</p>
+                <h1>Development of a Solid-State Continuous BP Monitor</h1>
+                <p class="subtitle">Active material actuation and pulse wave analysis replacing traditional pneumatic cuffs.</p>
             </header>
 
             <div class="content-grid">
                 <div class="main-content">
                     <h2>The Objective</h2>
-                    <p>Standard pneumatic cuffs provide only intermittent data points, creating a significant sampling gap in clinical monitoring. This project designed a continuous non-invasive blood pressure (CNIBP) monitor using an active-material elastic sleeve and embedded piezo-electric sensors to track pulse wave amplitude in real-time[cite: 254, 255, 256].</p>
+                    <p>To design a continuous non-invasive blood pressure (CNIBP) monitor that eliminates bulky pneumatic pumps. The system utilizes an active-material elastic sleeve and embedded piezo-electric sensors to track pulse wave amplitude in real-time.</p>
 
                     <h2>1. Analog Front-End (AFE) Design</h2>
-                    <p>Piezo-electric transducers generate high-impedance charge signals proportional to arterial displacement[cite: 260]. To prevent signal loading, I configured an LMP7721 precision amplifier as a charge-to-voltage converter[cite: 261]. The feedback network of $R_{t}=300\text{ M}\Omega$ and $C_{t}=10\text{ nF}$ provides hardware AC-coupling, effectively eliminating DC offset and sensor hysteresis[cite: 262].</p>
+                    <p>Piezo-electric transducers generate high-impedance charge signals proportional to arterial displacement. To prevent signal loading, I configured an LMP7721 precision amplifier as a charge-to-voltage converter. The hardware AC-coupling acts as a tuned bandpass filter with a sharp cutoff below 0.1 Hz, cleanly rejecting static baseline pressure while passing the 1-2 Hz human heartbeat frequencies.</p>
 
                     <div class="image-wrapper" style="text-align: center; margin-bottom: 3rem;">
                         <img src="assets/bp-circuit-diagram.png" alt="LMP7721 Charge Amplifier Circuit Diagram" style="max-width: 100%; border-radius: 8px;">
-                        <p class="image-caption">Fig 1: LMP7721 precision charge amplifier configuration for high-impedance piezoelectric interfacing[cite: 261, 279].</p>
+                        <p class="image-caption" style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Fig 1: LMP7721 precision charge amplifier configuration for high-impedance piezoelectric interfacing.</p>
                     </div>
 
-                    <div class="image-wrapper" style="text-align: center;">
+                    <div class="image-wrapper" style="text-align: center; margin-bottom: 3rem;">
                         <img src="assets/bp-bode-plot.png" alt="AC Analysis Bode Plot" style="max-width: 100%; border-radius: 8px;">
-                        <p class="image-caption">Fig 2: AC Analysis Bode plot demonstrating a highly tuned bandpass filter with a sharp 0.1 Hz cutoff to reject static baseline pressure[cite: 263, 264, 291].</p>
+                        <p class="image-caption" style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Fig 2: AC Analysis Bode plot demonstrating a highly tuned bandpass filter with a sharp 0.1 Hz cutoff.</p>
                     </div>
+
                     <h2>2. Digital Logic & Patient Safety</h2>
-                    <p>The system executes a deterministic 100 Hz sampling routine via Timer1 Interrupts to calculate real-time pulse amplitude[cite: 256, 294]. I utilized digital environment testing to develop a closed-loop control system that manages actuation hysteresis and sensor drift via a dual-threshold deadband[cite: 257, 312].</p>
+                    <p>The system executes a deterministic 100 Hz sampling routine via Timer1 Interrupts, tracking local maxima and minima to calculate real-time pulse amplitude.</p>
+                    <p><strong>Hardware Fail-Safe:</strong> Given the compressive nature of the active material, I integrated a hardware Watchdog Timer (WDT) with a 500ms timeout. In the event of a firmware exception or sensor failure, the WDT triggers a global hardware reset, immediately dropping the PWM output to 0% to relax the cuff and ensure patient safety.</p>
 
-                    <p><strong>Hardware Fail-Safe:</strong> Given the compressive nature of the active material, I integrated a hardware Watchdog Timer (WDT) with a 500ms timeout[cite: 257, 323]. In the event of a software hang, the WDT triggers a global hardware reset, clearing the PWM output to 0% and relaxing the cuff to ensure patient safety[cite: 324, 325].</p>
-
-                    <h2>3. Mechanical CAD Integration</h2>
-                    <p>The mechanical build relies on a multi-layer architecture designed in SolidWorks. The inner thermoplastic polyurethane (TPU) sleeve features recessed pockets to ensure a flush, zero-gap mechanical coupling with the skin[cite: 298, 299, 300]. Actuation is driven by Shape Memory Alloy (SMA) wires routed along a rigid polymer spine, converting linear contraction into uniform circumferential pressure[cite: 301, 302].</p>
+                    <h2>3. Mechanical Architecture</h2>
+                    <p>The mechanical build relies on a multi-layer architecture. The inner thermoplastic polyurethane (TPU) sleeve features recessed pockets to ensure a flush, zero-gap mechanical coupling with the skin. Actuation is driven by Shape Memory Alloy (SMA) wires routed along a rigid polymer spine, converting linear contraction into uniform circumferential pressure.</p>
 
                     <div class="image-wrapper" style="text-align: center;">
-                        <img src="assets/bp-cad-inner-sleeve.png" alt="SolidWorks CAD of Inner Sleeve and Control Pod" style="max-width: 100%; border-radius: 8px;">
-                        <p class="image-caption">Fig 2: CAD renders of the TPU Inner Sleeve and the integrated Control Pod[cite: 305, 309].</p>
+                        <img src="assets/bp-cad-inner-sleeve.png" alt="SolidWorks CAD of BP Sleeve" style="max-width: 100%; border-radius: 8px;">
+                        <p class="image-caption" style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Fig 3: SolidWorks CAD renders of the TPU sleeve and integrated Control Pod.</p>
                     </div>
                 </div>
 
@@ -72,20 +59,19 @@
                     <div class="sidebar-box">
                         <h3>Tech Stack</h3>
                         <ul class="clean-list">
-                            <li>AVR Assembly (Deterministic Logic) [cite: 256]</li>
-                            <li>LMP7721 CMOS Amplifiers [cite: 261]</li>
-                            <li>LTspice (AC/Transient Analysis) [cite: 263]</li>
-                            <li>SolidWorks CAD [cite: 305]</li>
-                            <li>Digital Environment Testing </li>
+                            <li>AVR Assembly</li>
+                            <li>LMP7721 CMOS Amplifiers</li>
+                            <li>LTspice Analysis</li>
+                            <li>SolidWorks CAD</li>
                         </ul>
                     </div>
                 </aside>
             </div>
         </article>
 
-        <section class="download-container" style="margin-top: 4rem; text-align: center; border-top: 1px solid #eee; padding-top: 2rem;">
+        <section class="download-container">
             <h3>Full Technical Documentation</h3>
-            <p>Download the complete white paper detailing the AFE frequency response and safety protocols.</p>
+            <p>For a deep dive into the analog front-end frequency response and hardware safety protocols, download the full white paper below.</p>
             <a href="assets/cuff-project.pdf" class="btn-download" download>Download White Paper (PDF)</a>
         </section>
     </main>
