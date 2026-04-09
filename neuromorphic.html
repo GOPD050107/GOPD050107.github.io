@@ -21,26 +21,28 @@
         <article>
             <header class="article-header">
                 <h1>Neuromorphic Spiking Algorithms</h1>
-                <p class="subtitle">Python simulations bridging circuit hardware with biological sensing efficiency.</p>
+                <p class="subtitle">Modeling biological neuron dynamics for power-efficient hardware.</p>
             </header>
 
             <div class="content-grid">
                 <div class="main-content">
                     <h2>The Concept</h2>
-                    <p>Traditional computing relies on always-open circuits, which consume vast amounts of power. Neuromorphic engineering mimics biological brains by modulating voltage through discrete energy spikes, dramatically increasing power efficiency. I built Python simulations to model two foundational neuromorphic concepts.</p>
+                    <p>Conventional circuits are "always-on," leading to high power consumption. Neuromorphic systems increase efficiency by using energy spikes, only transmitting power when a specific threshold is met, similar to biological neurons.</p>
 
-                    <h2>1. Leaky Integrate-and-Fire (LIF) Model</h2>
-                    <p>I simulated the electrical behavior of a single biological neuron's membrane. Using Euler integration, the algorithm accumulates a simulated input current. If unstimulated, the voltage "leaks" back to a resting state (-60mV). When the voltage hits a defined threshold (-50mV), the circuit fires an energy spike and enters a 5ms refractory period, rejecting incoming current to reset.</p>
-                    
-                    <div class="image-wrapper" style="margin: 2rem 0; background: #f4f7f9; padding: 1rem; border-radius: 8px; text-align: center;">
-                        <p style="color: #888; font-style: italic;">[Insert Matplotlib LIF Voltage Over Time Plot Here]</p>
+                    <h2>1. Leaky Integrate-and-Fire (LIF)</h2>
+                    <p>I architected simulations to model membrane voltage accumulation. The system integrates incoming current, but "leaks" voltage over time if no stimulus is present. Once the threshold is reached, the system fires a spike and enters a refractory period to recharge.</p>
+
+                    <div class="image-wrapper" style="text-align: center;">
+                        <img src="assets/neuro-lif-voltage-plot.png" alt="LIF Neuron Voltage Plot" style="max-width: 100%; border-radius: 8px;">
+                        <p class="image-caption" style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Fig 1: Simulated membrane voltage showing accumulation, threshold firing, and refractory reset.</p>
                     </div>
 
                     <h2>2. Spike-Timing-Dependent Plasticity (STDP)</h2>
-                    <p>Moving from a single neuron to a network, I modeled STDP—a biological learning rule for artificial synapses. The algorithm tracks the exact firing timing of pre-synaptic and post-synaptic simulated neurons. Using exponential decay traces, the algorithm automatically adjusts "weight" (connection strength). If the input fires right before the output, the circuit strengthens the pathway; if the timing is reversed, it penalizes it.</p>
+                    <p>This algorithm mimics biological learning. If an input spike occurs just before an output spike, the connection strengthens. If the timing is reversed, the connection weakens. This allows the system to optimize data pathways dynamically.</p>
 
-                    <div class="image-wrapper" style="margin: 2rem 0; background: #f4f7f9; padding: 1rem; border-radius: 8px; text-align: center;">
-                        <p style="color: #888; font-style: italic;">[Insert Matplotlib STDP Weight Adjustment Charts Here]</p>
+                    <div class="image-wrapper" style="text-align: center;">
+                        <img src="assets/neuro-stdp-weight-plot.png" alt="STDP Weight Adjustment Plot" style="max-width: 100%; border-radius: 8px;">
+                        <p class="image-caption" style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Fig 2: Weight adjustment curves demonstrating simulated synaptic learning based on spike timing.</p>
                     </div>
                 </div>
 
@@ -48,15 +50,18 @@
                     <div class="sidebar-box">
                         <h3>Tech Stack</h3>
                         <ul class="clean-list">
-                            <li>Python</li>
-                            <li>NumPy (Euler Integration)</li>
-                            <li>Matplotlib (Signal Plotting)</li>
-                            <li>Algorithm Design</li>
+                            <li>Python (NumPy, Matplotlib)</li>
+                            <li>Biological Sensing Models</li>
+                            <li>Computational Efficiency</li>
                         </ul>
                     </div>
                 </aside>
             </div>
         </article>
     </main>
+
+    <footer>
+        <p>&copy; 2026 David G. Puga. All rights reserved.</p>
+    </footer>
 </body>
 </html>
