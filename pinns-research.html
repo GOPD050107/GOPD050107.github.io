@@ -27,27 +27,26 @@
             <div class="content-grid">
                 <div class="main-content">
                     <h2>The Challenge</h2>
-                    <p>Standard AI models often fail to identify usable battery materials because they produce chemically unstable results that ignore fundamental laws of physics. Traditional trial-and-error discovery timelines are resource-intensive and often require more than a decade to bring a new material to market.</p>
+                    <p>Standard AI models often predict chemically unstable battery materials because they ignore real-world physics. Conversely, physical trial-and-error discovery is slow, often taking over a decade to bring a new material to market.</p>
 
                     <h2>The Methodology</h2>
-                    <p>We architected a machine learning framework that embeds domain-specific physical principles directly into the learning process. Unlike "black-box" models, this PINN is constrained by fundamental laws to enhance accuracy and synthesizability.</p>
+                    <p>I developed a machine learning framework that embeds fundamental thermodynamic laws directly into the training process. This constrains the neural network to produce highly accurate, physically viable predictions.</p>
                     
                     <ol style="margin-bottom: 2rem;">
-                        <li><strong>Physics-Based Features:</strong> Curated 29,377 compounds from the Materials Project and engineered 22 distinct descriptors.</li>
-                        <li><strong>Physics-Informed Core:</strong> Constrained calculations using Volumetric Energy Density (VED) principles.</li>
+                        <li><strong>Physics-Based Features:</strong> Curated 29,377 compounds from the Materials Project using 22 distinct material descriptors.</li>
+                        <li><strong>Physics-Informed Core:</strong> Constrained predictions using Volumetric Energy Density (VED) principles.</li>
                         <li><strong>Neural Network Prediction:</strong> Trained a Feed-Forward Neural Network to predict VED with high fidelity.</li>
                     </ol>
 
                     <h2>The Discovery</h2>
-                    <p>The model demonstrated exceptional predictive fidelity, achieving a coefficient of determination (R²) of 0.9989. This framework enabled the high-throughput screening of 500,000 hypothetical compositions in under 15 minutes.</p>
+                    <p>The framework achieved near-perfect predictive accuracy (R² of 0.9989). This allowed us to digitally screen 500,000 hypothetical compositions in under 15 minutes.</p>
                     
                     <div style="margin: 2rem 0; text-align: center;">
                         <img src="assets/pinn-parity-plot.png" alt="Predicted vs Actual VED Parity Plot" style="max-width: 100%; border-radius: 8px;">
-                        <p style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">Fig 4: Parity plot showing near-perfect correlation between model predictions and DFT actual values.</p>
                     </div>
 
-                    <h3>High-Performance Candidate Identified</h3>
-                    <p>The screening independently discovered a promising avenue for chemical modification: a Co-doped spinel.</p>
+                    <h3>High-Performance Candidate</h3>
+                    <p>The high-throughput screening successfully identified a promising, high-energy candidate for chemical modification.</p>
 
                     <blockquote style="background-color: var(--light-gray); padding: 1.5rem; border-left: 4px solid var(--accent-color); margin: 2rem 0;">
                         <strong>Novel Discovery:</strong><br>
