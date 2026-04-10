@@ -27,22 +27,20 @@
             <div class="content-grid">
                 <div class="main-content">
                     <h2>The Concept</h2>
-                    <p>Conventional circuits are "always-on," leading to high power consumption. Neuromorphic systems increase efficiency by using energy spikes, only transmitting power when a specific threshold is met, similar to biological neurons.</p>
+                    <p>Neuromorphic systems maximize hardware efficiency by replacing "always-on" circuits with event-driven architectures that only transmit data when specific energy thresholds are met.</p>
 
                     <h2>1. Leaky Integrate-and-Fire (LIF)</h2>
-                    <p>I architected simulations to model membrane voltage accumulation. The system integrates incoming current, but "leaks" voltage over time if no stimulus is present. Once the threshold is reached, the system fires a spike and enters a refractory period to recharge.</p>
+                    <p>This simulation models biological voltage accumulation. The system integrates incoming current but "leaks" voltage during inactivity. Upon hitting a threshold, it fires a spike and resets via a refractory period.</p>
 
-                    <div class="image-wrapper" style="text-align: center;">
+                    <div class="image-wrapper" style="text-align: center; margin-bottom: 3rem;">
                         <img src="assets/neuro-lif-voltage-plot.png" alt="LIF Neuron Voltage Plot" style="max-width: 100%; border-radius: 8px;">
-                        <p class="image-caption" style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Fig 1: Simulated membrane voltage showing accumulation, threshold firing, and refractory reset.</p>
                     </div>
 
                     <h2>2. Spike-Timing-Dependent Plasticity (STDP)</h2>
-                    <p>This algorithm mimics biological learning. If an input spike occurs just before an output spike, the connection strengthens. If the timing is reversed, the connection weakens. This allows the system to optimize data pathways dynamically.</p>
+                    <p>This algorithm drives dynamic learning. Connection weights strengthen when an input spike precedes an output spike, and weaken when reversed, automatically optimizing data pathways.</p>
 
                     <div class="image-wrapper" style="text-align: center;">
                         <img src="assets/neuro-stdp-weight-plot.png" alt="STDP Weight Adjustment Plot" style="max-width: 100%; border-radius: 8px;">
-                        <p class="image-caption" style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Fig 2: Weight adjustment curves demonstrating simulated synaptic learning based on spike timing.</p>
                     </div>
                 </div>
 
